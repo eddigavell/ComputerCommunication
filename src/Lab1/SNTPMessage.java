@@ -1,5 +1,7 @@
 package Lab1;
 
+import java.io.UnsupportedEncodingException;
+
 public class SNTPMessage {
     private byte leapIndicator = 0;
     private byte versionNumber = 4;
@@ -53,14 +55,15 @@ public class SNTPMessage {
   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
  */
     /* Exempel på SNTP message
-    byte [] buf = {  36,   1,  0, -25,
-                      0,   0,  0,   0,
-                      0,   0,  0,   2,
-                     80,  80, 83,   0,
-                    -29, 116,  5,  61,  0,  0,    0,   0,
-                    -29, 116,  5,  59, 14, 86,    0,   0,
-                    -29, 116,  5,  62,  0, 47, -121, -38,
-                    -29, 116,  5,  62,  0, 47, -113,  -1}
+        byte [] buf = {  36,   1,  0, -25,
+                          0,   0,  0,   0,
+                          0,   0,  0,   2,
+                         80,  80, 83,   0,
+                        -29, 116,  5,  61,  0,  0,    0,   0,
+                        -29, 116,  5,  59, 14, 86,    0,   0,
+                        -29, 116,  5,  62,  0, 47, -121, -38,
+                        -29, 116,  5,  62,  0, 47, -113,  -1};
+        SNTPMessage msg = new SNTPMessage(buf);
     */
 
     SNTPMessage(byte[] buf) {
@@ -207,7 +210,7 @@ public class SNTPMessage {
         }
     }
 
-    public void printDataToConsole() {
+    public void printDataToConsole() throws UnsupportedEncodingException {
         System.out.println();
         System.out.println("--Printing data from the message--");
         System.out.println("LeapIndicator: " + leapIndicator);
@@ -218,14 +221,7 @@ public class SNTPMessage {
         System.out.println("precision: " + precision);
         System.out.println("rootDelay: " + rootDelay);
         System.out.println("rootDispersion: " + rootDispersion);
-        System.out.println();
-        System.out.println("-ReferenceIdentifier-");
-        int x = 0;
-        for(byte n: referenceIdentifier) {
-            System.out.println("referenceIdentifier " + x++ + ": " +n);
-        }
-        System.out.println("-----------------------");
-        System.out.println();
+        System.out.println("ReferenceIdentifier: " + new String(referenceIdentifier, "US-ASCII"));
         System.out.println("referenceTimeStamp: " + referenceTimeStamp);
         System.out.println("originateTimeStamp: " + originateTimeStamp);
         System.out.println("receiveTimeStamp: " + referenceTimeStamp);
@@ -234,4 +230,25 @@ public class SNTPMessage {
         System.out.println("Done.");
         System.out.println("-----------------------");
     }
+
+    public double getReferenceTimeStamp() {
+        return this.referenceTimeStamp;
+    }
+
+    public double getOriginateTimeStamp() {
+        return this.originateTimeStamp;
+    }
+
+    public double getReceiveTimeStamp() {
+        return this.receiveTimeStamp;
+    }
+
+    public double getTransmitTimeStamp() {
+        return this.transmitTimeStamp;
+    }
+
+    public byte getMode() {
+        return this.mode;
+    }
+
 }
