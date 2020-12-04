@@ -1,43 +1,57 @@
 package Lab1;
 
 public class SNTPMessage {
+    private byte leapIndicator = 0;
+    private byte versionNumber = 4;
+    private byte mode = 0;
+    private short stratum = 0;
+    private short pollInterval = 0;
+    private byte precision = 0;
+    private double rootDelay = 0;
+    private double rootDispersion = 0;
+    private byte[] referenceIdentifier = {0, 0, 0, 0};
+    private double referenceTimeStamp = 0;
+    private double originateTimeStamp = 0;
+    private double receiveTimeStamp = 0;
+    private double transmitTimeStamp = 0;
+
     /*
-                        1                   2                   3
-       0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9  0  1
-      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-      |LI | VN  |Mode |    Stratum    |     Poll      |   Precision    |
-      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-      |                          Root  Delay                           |
-      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-      |                       Root  Dispersion                         |
-      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-      |                     Reference Identifier                       |
-      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-      |                                                                |
-      |                    Reference Timestamp (64)                    |
-      |                                                                |
-      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-      |                                                                |
-      |                    Originate Timestamp (64)                    |
-      |                                                                |
-      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-      |                                                                |
-      |                     Receive Timestamp (64)                     |
-      |                                                                |
-      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-      |                                                                |
-      |                     Transmit Timestamp (64)                    |
-      |                                                                |
-      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-      |                 Key Identifier (optional) (32)                 |
-      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-      |                                                                |
-      |                                                                |
-      |                 Message Digest (optional) (128)                |
-      |                                                                |
-      |                                                                |
-      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-     */
+                    1                   2                   3
+   0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9  0  1
+  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+  |LI | VN  |Mode |    Stratum    |     Poll      |   Precision    |
+  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+  |                          Root  Delay                           |
+  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+  |                       Root  Dispersion                         |
+  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+  |                     Reference Identifier                       |
+  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+  |                                                                |
+  |                    Reference Timestamp (64)                    |
+  |                                                                |
+  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+  |                                                                |
+  |                    Originate Timestamp (64)                    |
+  |                                                                |
+  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+  |                                                                |
+  |                     Receive Timestamp (64)                     |
+  |                                                                |
+  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+  |                                                                |
+  |                     Transmit Timestamp (64)                    |
+  |                                                                |
+  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+  |                 Key Identifier (optional) (32)                 |
+  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+  |                                                                |
+  |                                                                |
+  |                 Message Digest (optional) (128)                |
+  |                                                                |
+  |                                                                |
+  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+ */
     /* Exempel på SNTP message
     byte [] buf = {  36,   1,  0, -25,
                       0,   0,  0,   0,
@@ -48,41 +62,6 @@ public class SNTPMessage {
                     -29, 116,  5,  62,  0, 47, -121, -38,
                     -29, 116,  5,  62,  0, 47, -113,  -1}
     */
-
-    private byte leapIndicator = 0;
-    private byte versionNumber = 4;
-    private byte mode = 0;
-    private short stratum = 0;
-    private short pollInterval = 0;
-    private byte precision = 0;
-    /*Första byten 36
-     | 0 1 | 2 3 4 | 5 6 7 |
-     | LI  |  VN   |  Mode |
-       0 0   1 0 0   1 0 0 - (00100100) byte kod
-        0      4       4
-    */
-
-    private double rootDelay = 0;
-    private double rootDispersion = 0;
-    /*
-    rootDelay 32-bit signed fixed-point number
-    fraction point between 15 and 16
-
-    0000 0000 0000 0000 . 0000 0000 0000 0000
-
-    Same for rootDispersion
-     */
-
-    private byte[] referenceIdentifier = {0, 0, 0, 0};
-    /* Reference identifier 32-bits
-    80,  80, 83,   0,
-     P,   P,  S,   0
-    */
-
-    private double referenceTimeStamp = 0;
-    private double originateTimeStamp = 0;
-    private double receiveTimeStamp = 0;
-    private double transmitTimeStamp = 0;
 
     SNTPMessage(byte[] buf) {
         byte b = buf[0];
@@ -110,6 +89,12 @@ public class SNTPMessage {
         pollInterval = unsignedByteToShort(buf[2]); // 0
         precision = buf[3]; // -25
 
+        /*
+        rootDelay 32-bit signed fixed-point number
+        fraction point between 15 and 16
+        0000 0000 0000 0000 . 0000 0000 0000 0000
+        Same for rootDispersion
+
         //Vi får datan för rootDelay som 4 bytes d.v.s 32 bits i följd
         //00000000 00000000 00000000 00000000 | 00000000 00000000 00000000 00000000 -> 0 - 65535 | 0 - 65535 -> 0 - 65535,65535
         //Exempel: 1000 0100 0110 0010 | 0110 0100 0110 0010 -> 33890.25698
@@ -119,6 +104,7 @@ public class SNTPMessage {
         // buf[7] = 98
         // 256.0 -> 0xFF+1.0
         // 65536.0 -> 0xFFFF+1.0
+        */
         rootDelay = (((buf[4] * (0xFF+1.0)) +
                       (unsignedByteToShort(buf[5]))) +
                      ((unsignedByteToShort(buf[6]) / (0xFF+1.0)) +
@@ -136,7 +122,6 @@ public class SNTPMessage {
         referenceIdentifier[1] = buf[13];
         referenceIdentifier[2] = buf[14];
         referenceIdentifier[3] = buf[15];
-
 
         //Timestamps is 64bits... instead of 32 we did earlier but still the same practice.
         referenceTimeStamp = byteArrayToDouble(buf, 16); // -29, 116,  5,  61,  0,  0,    0,   0,
@@ -165,8 +150,11 @@ public class SNTPMessage {
             return (short) ((b & 0xFF));
         }
 
+        //Björns exempel nedanför om min egna ovanför inte skulle fungera:
         // if ((b & 0x80) == 0x80) { // 0x80 = 1000 0000
         //    return (short) ((b & 0x7F)*2);
         // }
+
+        //return (short) b;
     }
 }
