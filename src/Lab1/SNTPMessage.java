@@ -123,7 +123,7 @@ public class SNTPMessage {
         referenceIdentifier[2] = buf[14];
         referenceIdentifier[3] = buf[15];
 
-        //Timestamps is 64bits... instead of 32 we did earlier but still the same practice.
+        //Timestamps is 64bits... instead of 32bits we did earlier but still the same practice.
         referenceTimeStamp = byteArrayToDouble(buf, 16); // -29, 116,  5,  61,  0,  0,    0,   0,
         originateTimeStamp = byteArrayToDouble(buf, 24); // -29, 116,  5,  61,  0,  0,    0,   0,
         receiveTimeStamp = byteArrayToDouble(buf, 32); // -29, 116,  5,  62,  0, 47, -121, -38,
@@ -132,8 +132,8 @@ public class SNTPMessage {
 
     public SNTPMessage() {
         mode = 3;
-        //System.currentTimeMillis räknar från 1970 talet och NTP från 1900, så vi saknar 70år i sekundrar...
-        transmitTimeStamp = ((System.currentTimeMillis() / 1000.0) + (2208988800.0)); // 1900 -> 1970 d.v.s 70år = 2208988800.0 sekunder
+        //System.currentTimeMillis counts from 1970 when NTP counts from 1900, so we are missing 70years in seconds.
+        transmitTimeStamp = ((System.currentTimeMillis() / 1000.0) + (2208988800.0)); // 1900 -> 1970 = 70 years = 2208988800.0 Seconds
     }
 
     private double byteArrayToDouble(byte[] buf, int index) {
@@ -175,21 +175,35 @@ public class SNTPMessage {
         array[2] = (byte) pollInterval;
         array[3] = precision;
 
-        int data = (int) (rootDelay * (0xFF+1));
-        array[4] = (byte) ((data >> 24) & 0XFF);
-        array[5] = (byte) ((data >> 16) & 0XFF);
-        array[6] = (byte) ((data >> 8) & 0XFF);
-        array[7] = (byte) (data & 0XFF);
+        int dataRootDelay = (int) (rootDelay * (0xFF+1));
+        array[4] = (byte) ((dataRootDelay >> 24) & 0XFF);
+        array[5] = (byte) ((dataRootDelay >> 16) & 0XFF);
+        array[6] = (byte) ((dataRootDelay >> 8) & 0XFF);
+        array[7] = (byte) (dataRootDelay & 0XFF);
 
-        int data1 = (int) (rootDispersion * (0xFF+1));
-        array[8] = (byte) ((data1 >> 24) & 0XFF);
-        array[9] = (byte) ((data1 >> 16) & 0XFF);
-        array[10] = (byte) ((data1 >> 8) & 0XFF);
-        array[11] = (byte) (data1 & 0XFF);
+        int dataRootDispersion = (int) (rootDispersion * (0xFF+1));
+        array[8] = (byte) ((dataRootDispersion >> 24) & 0XFF);
+        array[9] = (byte) ((dataRootDispersion >> 16) & 0XFF);
+        array[10] = (byte) ((dataRootDispersion >> 8) & 0XFF);
+        array[11] = (byte) (dataRootDispersion & 0XFF);
 
+        array[12] = referenceIdentifier[0];
+        array[13] = referenceIdentifier[1];
+        array[14] = referenceIdentifier[2];
+        array[15] = referenceIdentifier[3];
 
-
+        doubleToByteArray(array, 16, referenceTimeStamp);
+        doubleToByteArray(array, 24, originateTimeStamp);
+        doubleToByteArray(array, 32, receiveTimeStamp);
+        doubleToByteArray(array, 40, transmitTimeStamp);
 
         return array;
+    }
+
+    private void doubleToByteArray(byte[] array, int index, double data) {
+        for(int i = 0; i < 8; i++) {
+            array[index+i] = (byte) (data / Math.pow(2, (3-i) * 8));
+            data -= (double) (unsignedByteToShort(array[index+i]) * Math.pow(2, (3-i) * 8));
+        }
     }
 }
