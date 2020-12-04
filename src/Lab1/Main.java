@@ -44,6 +44,14 @@ public class Main {
             System.out.println();
             DatagramPacket packet = new DatagramPacket(buf, buf.length, ip, udpPort);
             socket.send(packet);
+            System.out.println("Sent request to server");
+
+            socket.receive(packet);
+            System.out.println("Recieved message from server");
+            SNTPMessage response = new SNTPMessage(packet.getData());
+            System.out.println(response.toByteArray());
+            socket.close();
+            System.out.println();
 
         } catch (IOException e) {
             e.printStackTrace();
