@@ -119,12 +119,12 @@ public class SNTPMessage {
         // buf[7] = 98
         // 256.0 -> 0xFF+1.0
         // 65536.0 -> 0xFFFF+1.0
-        rootDelay = (((buf[4] * 256.0) +
+        rootDelay = (((buf[4] * (0xFF+1.0)) +
                       (unsignedByteToShort(buf[5]))) +
                      ((unsignedByteToShort(buf[6]) / (0xFF+1.0)) +
                       (unsignedByteToShort(buf[7]) / (0xFFFF+1.0)))); // 0,   0,  0,   0,
 
-        rootDispersion = (((buf[8] * 255.0) +
+        rootDispersion = (((buf[8] * (0xFF+1.0)) +
                            (unsignedByteToShort(buf[9]))) +
                           ((unsignedByteToShort(buf[10]) / (0xFF+1.0)) +
                            (unsignedByteToShort(buf[11]) / (0xFFFF+1.0)))); // 0,   0,  0,   2,
