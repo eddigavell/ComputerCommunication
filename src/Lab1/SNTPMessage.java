@@ -87,11 +87,12 @@ public class SNTPMessage {
     SNTPMessage(byte[] buf) {
         byte b = buf[0];
         /* b = 36
-     | 0 1 | 2 3 4 | 5 6 7 |
-     | LI  |  VN   |  Mode |
-       0 0   1 0 0   1 0 0 - (00100100) byte kod
-        0      4       4
-    */
+        | 0 1 | 2 3 4 | 5 6 7 |
+        | LI  |  VN   |  Mode |
+          0 0   1 0 0   1 0 0 - (00100100) byte kod
+           0      4       4
+        */
+
         leapIndicator = (byte) ((b>>6) & 0x3);
         //00100100 -> 0010 0100
         // >> skiftar alla bits 6 steg till höger
@@ -134,5 +135,11 @@ public class SNTPMessage {
         It is packed up in the appendix C of the RFC 1305.
          */
 
+
+
+        0001 0000
+
+           128 64 32 16     8 4 2 1
+            0   0  0  0     0 0 1 1
     }
 }
