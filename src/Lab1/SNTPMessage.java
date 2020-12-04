@@ -68,7 +68,7 @@ public class SNTPMessage {
         /* b = 36
         | 0 1 | 2 3 4 | 5 6 7 |
         | LI  |  VN   |  Mode |
-          0 0   1 0 0   1 0 0 - (00100100) byte kod
+          0 0   1 0 0   1 0 0 - (00100100) bytekod
            0      4       4
         */
         leapIndicator = (byte) ((b>>6) & 0x3);
@@ -130,6 +130,12 @@ public class SNTPMessage {
         transmitTimeStamp = byteArrayToDouble(buf, 40); // -29, 116,  5,  62,  0, 47, -113,  -1}
     }
 
+    public SNTPMessage() {
+        mode = 3;
+        //System.currentTimeMillis räknar från 1970 talet och NTP från 1900, så vi saknar 70år i sekundrar...
+        transmitTimeStamp = ((System.currentTimeMillis() / 1000.0) + (2208988800.0)); // 1900 -> 1970 d.v.s 70år = 2208988800.0 sekunder
+    }
+
     private double byteArrayToDouble(byte[] buf, int index) {
         double result = 0.0;
         for(int i = 0; i < 8; i++) {
@@ -156,5 +162,34 @@ public class SNTPMessage {
         // }
 
         //return (short) b;
+    }
+
+    public byte[] toByteArray() {
+        byte[] array = new byte[48];
+
+        array[0] = (byte) ((leapIndicator << 6) | (versionNumber << 3) | mode);
+        //  | LI |  VN  |  Mode |
+        //    00  1 0 0   0 1 1 - (00100011) bytekod
+
+        array[1] = (byte) stratum;
+        array[2] = (byte) pollInterval;
+        array[3] = precision;
+
+        int data = (int) (rootDelay * (0xFF+1));
+        array[4] = (byte) ((data >> 24) & 0XFF);
+        array[5] = (byte) ((data >> 16) & 0XFF);
+        array[6] = (byte) ((data >> 8) & 0XFF);
+        array[7] = (byte) (data & 0XFF);
+
+        int data1 = (int) (rootDispersion * (0xFF+1));
+        array[8] = (byte) ((data1 >> 24) & 0XFF);
+        array[9] = (byte) ((data1 >> 16) & 0XFF);
+        array[10] = (byte) ((data1 >> 8) & 0XFF);
+        array[11] = (byte) (data1 & 0XFF);
+
+
+
+
+        return array;
     }
 }
