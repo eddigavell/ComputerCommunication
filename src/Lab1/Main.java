@@ -3,6 +3,7 @@ package Lab1;
 import javax.xml.crypto.Data;
 import java.io.IOException;
 import java.net.*;
+import java.util.Arrays;
 
 public class Main {
 
@@ -41,7 +42,6 @@ public class Main {
             SNTPMessage message = new SNTPMessage();
             byte[] buf = message.toByteArray();
 
-            System.out.println();
             DatagramPacket packet = new DatagramPacket(buf, buf.length, ip, udpPort);
             socket.send(packet);
             System.out.println("Sent request to server");
@@ -49,9 +49,11 @@ public class Main {
             socket.receive(packet);
             System.out.println("Recieved message from server");
             SNTPMessage response = new SNTPMessage(packet.getData());
-            System.out.println(response.toByteArray());
+
             socket.close();
-            System.out.println();
+            System.out.println("Closed connection");
+
+            response.printDataToConsole();
 
         } catch (IOException e) {
             e.printStackTrace();

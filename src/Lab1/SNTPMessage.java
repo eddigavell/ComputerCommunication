@@ -206,4 +206,32 @@ public class SNTPMessage {
             data -= (double) (unsignedByteToShort(array[index+i]) * Math.pow(2, (3-i) * 8));
         }
     }
+
+    public void printDataToConsole() {
+        System.out.println();
+        System.out.println("--Printing data from the message--");
+        System.out.println("LeapIndicator: " + leapIndicator);
+        System.out.println("VersionNumber: " + versionNumber);
+        System.out.println("Mode: " + mode);
+        System.out.println("Stratum: " + stratum);
+        System.out.println("pollInterval: " + pollInterval);
+        System.out.println("precision: " + precision);
+        System.out.println("rootDelay: " + rootDelay);
+        System.out.println("rootDispersion: " + rootDispersion);
+        System.out.println();
+        System.out.println("-ReferenceIdentifier-");
+        int x = 0;
+        for(byte n: referenceIdentifier) {
+            System.out.println("referenceIdentifier " + x++ + ": " +n);
+        }
+        System.out.println("-----------------------");
+        System.out.println();
+        System.out.println("referenceTimeStamp: " + referenceTimeStamp);
+        System.out.println("originateTimeStamp: " + originateTimeStamp);
+        System.out.println("receiveTimeStamp: " + referenceTimeStamp);
+        System.out.println("transmitTimeStamp: " + transmitTimeStamp);
+        System.out.println();
+        System.out.println("Done.");
+        System.out.println("-----------------------");
+    }
 }
