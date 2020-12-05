@@ -7,8 +7,7 @@ public class Main {
 
     public static void main(String[] args) {
         String[] server = new String[8];
-        //server[0] = "gbg1.ntp.se";
-        server[0] = "google.se";
+        server[0] = "gbg1.ntp.se";
         server[1] = "gbg2.ntp.se";
         server[2] = "mmo1.ntp.se";
         server[3] = "mmo2.ntp.se";
@@ -16,10 +15,6 @@ public class Main {
         server[5] = "sth2.ntp.se";
         server[6] = "svl1.ntp.se";
         server[7] = "svl2.ntp.se";
-
-
-
-        //TODO utöka koden så att den försöker ansluta till en annan server om anslutningen misslyckas
 
         try {
             DatagramSocket socket = new DatagramSocket();
@@ -57,6 +52,8 @@ public class Main {
             response.printDataToConsole();
 
             calculateRoundTripTimeAndPrintIt(response);
+
+            System.out.println(response.toString());
 
         } catch (IOException e) {
             e.printStackTrace();

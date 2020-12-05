@@ -251,4 +251,25 @@ public class SNTPMessage {
         return this.mode;
     }
 
+    public String toString() {
+        StringBuilder msg = new StringBuilder();
+        msg.append("LeapIndicator: ").append(leapIndicator).append("\n");
+        msg.append("VersionNumber: ").append(versionNumber).append("\n");
+        msg.append("Mode: ").append(mode).append("\n");
+        msg.append("Stratum: ").append(stratum).append("\n");
+        msg.append("pollInterval: ").append(pollInterval).append("\n");
+        msg.append("precision: ").append(precision).append("\n");
+        msg.append("rootDelay: ").append(rootDelay).append("\n");
+        msg.append("rootDispersion: ").append(rootDispersion).append("\n");
+        try {
+            msg.append("ReferenceIdentifier: ").append(new String(referenceIdentifier, "US-ASCII")).append("\n");
+        } catch (UnsupportedEncodingException e){
+            e.printStackTrace();
+        }
+        msg.append("referenceTimeStamp: ").append(referenceTimeStamp).append("\n");
+        msg.append("originateTimeStamp: ").append(originateTimeStamp).append("\n");
+        msg.append("receiveTimeStamp: ").append(referenceTimeStamp).append("\n");
+        msg.insert(msg.length(), "transmitTimeStamp: " + transmitTimeStamp + "\n");
+        return msg.toString();
+    }
 }
