@@ -69,30 +69,30 @@ public class Main {
 
     SNTPMessage connectAndSend(SNTPMessage msgToSend) throws IOException {
         SNTPMessage response;
-            DatagramSocket socket = new DatagramSocket();
-            int i = 0;
-            byte[] buf = msgToSend.toByteArray();
-            socket.setSoTimeout(1); //5ms to recieve packet
-            while (true) {
-                InetAddress ip = InetAddress.getByName(server[i++]);
-                DatagramPacket packet = new DatagramPacket(buf, buf.length, ip, 123);
-                socket.send(packet); //Sending packet
-                System.out.println("Sent request to server: " + ip.getHostName() + ":123");
-                try {
-                    socket.receive(packet); //Receives packet
-                } catch (SocketTimeoutException e) {
-                    System.out.println("Couldn't get a response in time from server, trying another...");
-                }
-                response = new SNTPMessage(packet.getData());
-                if (response.getMode() == 4) {
-                    System.out.println("Received message from server: " + packet.getAddress().getHostName() + ":" + packet.getPort());
-                    break;
-                } else if (i == server.length) {
-                    i = 0;
-                }
+        DatagramSocket socket = new DatagramSocket();
+        int i = 0;
+        byte[] buf = msgToSend.toByteArray();
+        socket.setSoTimeout(1); //5ms to recieve packet
+        while (true) {
+            InetAddress ip = InetAddress.getByName(server[i++]);
+            DatagramPacket packet = new DatagramPacket(buf, buf.length, ip, 123);
+            socket.send(packet); //Sending packet
+            System.out.println("Sent request to server: " + ip.getHostName() + ":123");
+            try {
+                socket.receive(packet); //Receives packet
+            } catch (SocketTimeoutException e) {
+                System.out.println("Couldn't get a response in time from server, trying another...");
             }
-            System.out.println("Connection closed to server");
-            socket.close();
+            response = new SNTPMessage(packet.getData());
+            if (response.getMode() == 4) {
+                System.out.println("Received message from server: " + packet.getAddress().getHostName() + ":" + packet.getPort());
+                break;
+            } else if (i == server.length) {
+                i = 0;
+            }
+        }
+        System.out.println("Connection closed to server");
+        socket.close();
         return response;
     }
 
