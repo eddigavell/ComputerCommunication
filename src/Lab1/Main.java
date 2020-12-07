@@ -4,9 +4,29 @@ import java.io.IOException;
 import java.net.*;
 
 public class Main {
+    String[] server = new String[8];
 
-    public static void main(String[] args) {
-        String[] server = new String[8];
+    Main() {
+        addServers();
+        SNTPMessage message = new SNTPMessage();
+        SNTPMessage response = null;
+        try {
+            response = connectAndSend(message);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        //response.printDataToConsole();
+        System.out.println();
+        if (response != null) {
+            System.out.println(response.toString());
+            System.out.println("----------------------------------------------------");
+            calculateRoundTripTimeAndPrintIt(response);
+        } else {
+            System.out.println("Response message is empty...");
+        }
+    }
+
+    void addServers() {
         server[0] = "gbg1.ntp.se";
         server[1] = "gbg2.ntp.se";
         server[2] = "mmo1.ntp.se";
@@ -15,77 +35,6 @@ public class Main {
         server[5] = "sth2.ntp.se";
         server[6] = "svl1.ntp.se";
         server[7] = "svl2.ntp.se";
-
-        try {
-            DatagramSocket socket = new DatagramSocket();
-            boolean run = true;
-            int i = 0;
-            SNTPMessage message = new SNTPMessage();
-            byte[] buf = message.toByteArray();
-            SNTPMessage response = new SNTPMessage(buf);
-            socket.setSoTimeout(5); //5ms to recieve packet
-            while (run) {
-                InetAddress ip = InetAddress.getByName(server[i++]);
-                DatagramPacket packet = new DatagramPacket(buf, buf.length, ip, 123);
-                socket.send(packet); //Sending packet
-                System.out.println("Sent request to server: " + ip.getHostName() + ":123");
-
-                try {
-                    socket.receive(packet); //Receives packet
-                } catch (SocketTimeoutException e) {
-                    System.out.println("Couldn't get a response in time from server, trying another...");
-                }
-
-                response = new SNTPMessage(packet.getData());
-
-                if (response.getMode() == 4) {
-                    System.out.println("Recieved message from server: " + packet.getAddress().getHostName() + ":" + packet.getPort());
-                    run = false;
-                } else if (i == server.length) {
-                    i = 0;
-                }
-            }
-
-            socket.close();
-            System.out.println("Connection closed to server");
-
-            response.printDataToConsole();
-
-            calculateRoundTripTimeAndPrintIt(response);
-
-            System.out.println(response.toString());
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-/*
-        try {
-            int udpPort = 123;
-            DatagramSocket socket = new DatagramSocket();
-            InetAddress ip = InetAddress.getByName("gbg1.ntp.se");
-            SNTPMessage message = new SNTPMessage();
-            byte[] buf = message.toByteArray();
-
-            DatagramPacket packet = new DatagramPacket(buf, buf.length, ip, udpPort);
-            socket.send(packet);
-            System.out.println("Sent request to server: " + ip.getHostName() + ":" + udpPort);
-
-            socket.receive(packet);
-            System.out.println("Recieved message from server");
-            SNTPMessage response = new SNTPMessage(packet.getData());
-
-            socket.close();
-            System.out.println("Connection closed to server");
-
-            response.printDataToConsole();
-
-            calculateRoundTripTimeAndPrintIt(response);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
- */
     }
 
     private static void calculateRoundTripTimeAndPrintIt(SNTPMessage message) {
@@ -114,7 +63,40 @@ public class Main {
         double delay = (t4 - t1) - (t3 - t2);
         double offset = ((t2 - t1) + (t3 - t4)) / 2;
 
-        //System.out.println("Delay: " + delay);
+        System.out.println("Delay: " + delay);
         System.out.println("Server offset: " + offset + " sekunder");
+    }
+
+    SNTPMessage connectAndSend(SNTPMessage msgToSend) throws IOException {
+        SNTPMessage response;
+            DatagramSocket socket = new DatagramSocket();
+            int i = 0;
+            byte[] buf = msgToSend.toByteArray();
+            socket.setSoTimeout(1); //5ms to recieve packet
+            while (true) {
+                InetAddress ip = InetAddress.getByName(server[i++]);
+                DatagramPacket packet = new DatagramPacket(buf, buf.length, ip, 123);
+                socket.send(packet); //Sending packet
+                System.out.println("Sent request to server: " + ip.getHostName() + ":123");
+                try {
+                    socket.receive(packet); //Receives packet
+                } catch (SocketTimeoutException e) {
+                    System.out.println("Couldn't get a response in time from server, trying another...");
+                }
+                response = new SNTPMessage(packet.getData());
+                if (response.getMode() == 4) {
+                    System.out.println("Received message from server: " + packet.getAddress().getHostName() + ":" + packet.getPort());
+                    break;
+                } else if (i == server.length) {
+                    i = 0;
+                }
+            }
+            System.out.println("Connection closed to server");
+            socket.close();
+        return response;
+    }
+
+    public static void main(String[] args) {
+        new Main();
     }
 }

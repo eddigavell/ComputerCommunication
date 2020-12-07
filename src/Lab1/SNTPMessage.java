@@ -1,6 +1,7 @@
 package Lab1;
 
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 
 public class SNTPMessage {
     private byte leapIndicator = 0;
@@ -261,11 +262,7 @@ public class SNTPMessage {
         msg.append("precision: ").append(precision).append("\n");
         msg.append("rootDelay: ").append(rootDelay).append("\n");
         msg.append("rootDispersion: ").append(rootDispersion).append("\n");
-        try {
-            msg.append("ReferenceIdentifier: ").append(new String(referenceIdentifier, "US-ASCII")).append("\n");
-        } catch (UnsupportedEncodingException e){
-            e.printStackTrace();
-        }
+        msg.append("ReferenceIdentifier: ").append(new String(referenceIdentifier, StandardCharsets.US_ASCII)).append("\n");
         msg.append("referenceTimeStamp: ").append(referenceTimeStamp).append("\n");
         msg.append("originateTimeStamp: ").append(originateTimeStamp).append("\n");
         msg.append("receiveTimeStamp: ").append(referenceTimeStamp).append("\n");
