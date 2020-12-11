@@ -9,9 +9,7 @@ public class Main {
     Main() {
         addServers();
         SNTPMessage message = new SNTPMessage();
-        /*
         SNTPMessage response = null;
-
         try {
             response = connectAndSend(message);
         } catch (IOException e) {
@@ -26,12 +24,13 @@ public class Main {
         } else {
             System.out.println("Response message is empty...");
         }
-        */
+        /*
         try {
             connectToAllServersAndPrintToConsole(message);
         } catch (IOException e) {
             e.printStackTrace();
         }
+        */
     }
 
     void addServers() {
