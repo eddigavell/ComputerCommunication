@@ -9,11 +9,11 @@ import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
 public class ClientReadTopic {
+    MqttClient mqttClient; //Client
     String subscribeTopic = "KYH/EG/sensor";
     String writeTopic = "KYH/EG/sensor/data";
     String mqttBroker = "tcp://broker.hivemq.com:1883";
     String clientId = "e-ClientReadTopic";
-    MqttClient mqttClient; //Client
 
     ClientReadTopic() {
         try {
@@ -37,7 +37,7 @@ public class ClientReadTopic {
             String text = content.toString();
             saveToLog( "temperature, " + text);
             int x = Integer.parseInt(text.substring(0,2));
-            System.out.println(text);
+            System.out.println("Received - " + topic + ": " + text);
             String s = "ctrl, ";
             if (x >= 22) {
                 s = s + "-";
@@ -48,6 +48,7 @@ public class ClientReadTopic {
             MqttMessage msg = new MqttMessage(s.getBytes(StandardCharsets.UTF_8));
             msg.setQos(2);
             mqttClient.publish(writeTopic, msg);
+            System.out.println("Sent - " + writeTopic + ": " + s);
         }
     }
 
@@ -58,9 +59,7 @@ public class ClientReadTopic {
         fw.close();
     }
 
-
     public static void main(String[] args) {
         new ClientReadTopic();
     }
-
 }

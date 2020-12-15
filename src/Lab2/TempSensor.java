@@ -16,7 +16,6 @@ public class TempSensor {
     long delay = secondsForTimer * 1000L; //timer delay in ms to get s.
     Timer timer;
 
-
     TempSensor() {
         try {
             MemoryPersistence persistence = new MemoryPersistence(); //Memory instance
@@ -57,8 +56,6 @@ public class TempSensor {
         int degree = (int) (Math.random() * 10) + 15;
         return String.valueOf(degree);
     }
-
-
 
     public static void main(String[] args) {
         new TempSensor();
