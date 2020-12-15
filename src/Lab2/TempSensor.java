@@ -8,26 +8,32 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class TempSensor {
-    String topic = "KYH/EG/sensor";
-    String mqttBroker = "tcp://broker.hivemq.com:1883";
-    String clientId = "e-TempSensor";
+    String topic;
+    String mqttBroker;
+    String clientId;
     MqttClient mqttClient; //Client
-    int secondsForTimer = 60; //Timer delay
-    long delay = secondsForTimer * 1000L; //timer delay in ms to get s.
     Timer timer;
+    int secondsForTimer = 10; //Timer delay
+    long delay = secondsForTimer * 1000L; //timer delay in ms to get s.
 
     TempSensor() {
-        try {
-            MemoryPersistence persistence = new MemoryPersistence(); //Memory instance
-            mqttClient = new MqttClient(mqttBroker, clientId, persistence); //Creates a new client
-            MqttConnectOptions connOpts = new MqttConnectOptions(); //Sets connection options for the client
-            connOpts.setCleanSession(true); //true if not needing a persistance, false if you do.
-            System.out.println("----- TEMP SENSOR -----");
-            System.out.println("Connecting to broker: " + mqttBroker);
-            mqttClient.connect(connOpts);
-            System.out.println("Connected and writing to topic: " + topic);
+            connectToBroker();
             timer = new Timer();
             timer.schedule(new TimerToDo(), delay);
+    }
+
+    void connectToBroker() {
+        try {
+        topic = "KYH/EG/sensor";
+        mqttBroker = "tcp://broker.hivemq.com:1883";
+        clientId = "e-TempSensor";
+        MemoryPersistence persistence = new MemoryPersistence(); //Memory instance
+        mqttClient = new MqttClient(mqttBroker, clientId, persistence); //Creates a new client
+        MqttConnectOptions connOpts = new MqttConnectOptions(); //Sets connection options for the client
+        connOpts.setCleanSession(true); //true if not needing a persistance, false if you do.
+        System.out.println("Connecting to broker: " + mqttBroker);
+        mqttClient.connect(connOpts);
+        System.out.println("Connected and writing to topic: " + topic);
         } catch (MqttException e) {
             e.printStackTrace();
         }
@@ -37,7 +43,7 @@ public class TempSensor {
         @Override
         public void run() {
             try {
-                String temp = getStringDegree() + "°C";
+                String temp = "temperature, " + getStringDegree() + "°C";
                 MqttMessage message = new MqttMessage(temp.getBytes(StandardCharsets.UTF_8));
                 message.setQos(2);
                 mqttClient.publish(topic, message);

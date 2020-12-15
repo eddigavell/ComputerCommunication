@@ -1,8 +1,36 @@
-Tue Dec 15 13:02:08 CET 2020, temperature, 16°C
-Tue Dec 15 13:02:08 CET 2020, ctrl, +
-Tue Dec 15 13:04:08 CET 2020, temperature, 18°C
-Tue Dec 15 13:04:08 CET 2020, ctrl, +
-Tue Dec 15 13:06:08 CET 2020, temperature, 20°C
-Tue Dec 15 13:06:08 CET 2020, ctrl, +
-Tue Dec 15 13:07:08 CET 2020, temperature, 21°C
-Tue Dec 15 13:07:08 CET 2020, ctrl, +
+Tue Dec 15 14:52:05 CET 2020, KYH/EG/sensor, temperature, 15°C
+Tue Dec 15 14:52:05 CET 2020, KYH/EG/sensor/data, ctrl, +
+Tue Dec 15 14:52:15 CET 2020, KYH/EG/sensor, temperature, 22°C
+Tue Dec 15 14:52:15 CET 2020, KYH/EG/sensor/data, ctrl, -
+Tue Dec 15 14:52:26 CET 2020, KYH/EG/sensor, temperature, 15°C
+Tue Dec 15 14:52:26 CET 2020, KYH/EG/sensor/data, ctrl, +
+Tue Dec 15 14:52:36 CET 2020, KYH/EG/sensor, temperature, 17°C
+Tue Dec 15 14:52:36 CET 2020, KYH/EG/sensor/data, ctrl, +
+Tue Dec 15 14:52:46 CET 2020, KYH/EG/sensor, temperature, 23°C
+Tue Dec 15 14:52:46 CET 2020, KYH/EG/sensor/data, ctrl, -
+Tue Dec 15 14:52:56 CET 2020, KYH/EG/sensor, temperature, 15°C
+Tue Dec 15 14:52:56 CET 2020, KYH/EG/sensor/data, ctrl, +
+Tue Dec 15 14:53:06 CET 2020, KYH/EG/sensor, temperature, 23°C
+Tue Dec 15 14:53:06 CET 2020, KYH/EG/sensor/data, ctrl, -
+Tue Dec 15 14:53:16 CET 2020, KYH/EG/sensor, temperature, 20°C
+Tue Dec 15 14:53:16 CET 2020, KYH/EG/sensor/data, ctrl, +
+Tue Dec 15 14:57:06 CET 2020, KYH/EG/sensor, temperature, 16°C
+Tue Dec 15 14:57:16 CET 2020, KYH/EG/sensor, temperature, 22°C
+Tue Dec 15 14:57:26 CET 2020, KYH/EG/sensor, temperature, 21°C
+Tue Dec 15 14:57:36 CET 2020, KYH/EG/sensor, temperature, 21°C
+Tue Dec 15 14:57:46 CET 2020, KYH/EG/sensor, temperature, 24°C
+Tue Dec 15 14:57:56 CET 2020, KYH/EG/sensor, temperature, 22°C
+Tue Dec 15 14:58:07 CET 2020, KYH/EG/sensor, temperature, 16°C
+Tue Dec 15 14:58:07 CET 2020, KYH/EG/sensor/data, ctrl, +
+Tue Dec 15 14:58:17 CET 2020, KYH/EG/sensor, temperature, 19°C
+Tue Dec 15 14:58:17 CET 2020, KYH/EG/sensor/data, ctrl, +
+Tue Dec 15 14:58:27 CET 2020, KYH/EG/sensor, temperature, 23°C
+Tue Dec 15 14:58:27 CET 2020, KYH/EG/sensor/data, ctrl, -
+Tue Dec 15 14:58:37 CET 2020, KYH/EG/sensor, temperature, 17°C
+Tue Dec 15 14:58:37 CET 2020, KYH/EG/sensor/data, ctrl, +
+Tue Dec 15 14:58:47 CET 2020, KYH/EG/sensor, temperature, 15°C
+Tue Dec 15 14:58:47 CET 2020, KYH/EG/sensor/data, ctrl, +
+Tue Dec 15 14:58:57 CET 2020, KYH/EG/sensor, temperature, 24°C
+Tue Dec 15 14:58:57 CET 2020, KYH/EG/sensor/data, ctrl, -
+Tue Dec 15 14:59:18 CET 2020, KYH/EG/sensor, temperature, 17°C
+Tue Dec 15 14:59:18 CET 2020, KYH/EG/sensor/data, ctrl, +

@@ -3,9 +3,13 @@ package Lab2;
 import org.eclipse.paho.client.mqttv3.*;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Date;
+
 public class ReadDataTopic {
     MqttClient mqttClient; //Client
-    String subscribeTopic = "KYH/EG/sensor/data";
+    String subscribeTopic = "KYH/EG/#";
     String mqttBroker = "tcp://broker.hivemq.com:1883";
     String clientId = "e-readerData";
 
@@ -26,9 +30,13 @@ public class ReadDataTopic {
 
     class MqttPostPropertyMessageListener implements IMqttMessageListener {
         @Override
-        public void messageArrived(String topic, MqttMessage content) {
+        public void messageArrived(String topic, MqttMessage content) throws IOException {
+            Date date = new Date();
             String receivedContent = topic + ", " + content.toString();
-            System.out.println(receivedContent);
+            System.out.println(date + ": " + receivedContent);
+            FileWriter fw = new FileWriter("src/Lab2/log.txt", true);
+            fw.write(date + ", " + receivedContent + "\n");
+            fw.close();
         }
     }
 
