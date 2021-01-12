@@ -44,9 +44,8 @@ public class TempSensor {
         public void run() {
             try {
                 String temp = "temperature, " + getStringDegree() + "°C";
-                MqttMessage message = new MqttMessage(temp.getBytes(StandardCharsets.UTF_8));
-                message.setQos(2);
-                mqttClient.publish(topic, message);
+                byte[] asd = temp.getBytes(StandardCharsets.UTF_8);
+                mqttClient.publish(topic, asd,2, false);
                 System.out.println("Sent temperature: " + temp);
             } catch (MqttException e) {
                 e.printStackTrace();

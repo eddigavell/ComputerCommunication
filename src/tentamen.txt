@@ -1,0 +1,13 @@
+-OSI model -
+Osi modellen skriver kommunikation i olika laget.
+
+APPLICATION webbläsare (HTTP) ->
+PRESENTATION JPEG (Formats applications data for delivery example. compression and encryption ->
+SESSION (connection management) Manages sessions between application process ->
+TRANSPORT (TCP/UDP) Host to host communications, segments and diagrams ->
+NETWORK (IP) Source and destination IP adresses, packets ->
+DATA LINK (MAC, FCS) Source and destination MAC adresses, ethernet frames ->
+PHYSICAL (data encoding) physical media, layer 1
+
+/---------------------------------------------------------------------------------------------------------
+-TCP/IP-

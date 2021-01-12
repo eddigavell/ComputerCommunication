@@ -22,7 +22,7 @@ public class ReadDataTopic {
             System.out.println("Connecting to broker: " + mqttBroker);
             mqttClient.connect(connOpts);
             System.out.println("Connected and listening to topic: " + subscribeTopic);
-            mqttClient.subscribe(subscribeTopic, new MqttPostPropertyMessageListener());
+            mqttClient.subscribe(subscribeTopic, 2,new MqttPostPropertyMessageListener());
         } catch (MqttException e) {
             e.printStackTrace();
         }
